@@ -6,7 +6,16 @@
       - zabbix-agent
       - zabbix-web
       - zabbix-web-mysql
+      - zabbix-sql-scripts
       - php
       - php-fpm
       - php-mysqlnd
     state: present
+
+- name: Open Zabbix server port
+  command: firewall-cmd --permanent --add-port=10051/tcp
+
+- name: reload firewall
+  command: firewall-cmd --reload
+
+  

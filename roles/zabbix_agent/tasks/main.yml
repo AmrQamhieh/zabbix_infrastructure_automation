@@ -4,3 +4,15 @@
     name:
       - zabbix-agent
     state: present  
+
+- name: Start and Enable Zabbix agent
+  service:
+    name: zabbix-agent
+    state: started
+    enabled: yes
+
+- name: Open Zabbix agent port
+  command: firewall-cmd --permanent --add-port=10050/tcp
+
+- name: Reload Firewalld
+  command: firewall-cmd --reload

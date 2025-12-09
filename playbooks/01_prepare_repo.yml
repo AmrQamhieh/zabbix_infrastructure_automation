@@ -8,3 +8,24 @@
 
   roles:
     - repo
+
+- name: Add local repo on server and agent machines
+  hosts:
+    - zabbix-server
+    - zabbix-agent
+  become: yes
+
+  vars:
+    repo_server_ip: 192.168.1.10
+    local_repo_name: local-zabbix
+    local_repo_baseurl: "http://{{ repo_server_ip }}/repo"
+
+  tasks:
+    - name: Configure local YUM repo
+      yum_repository:
+        name: "{{ local_repo_name }}"
+        description: "Local Zabbix repository"
+        baseurl: "{{ local_repo_baseurl }}"
+        enabled: yes
+        gpgcheck: no
+

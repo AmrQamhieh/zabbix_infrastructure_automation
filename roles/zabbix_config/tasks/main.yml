@@ -1,0 +1,75 @@
+---
+- name: Install Python MySQL driver (PyMySQL)
+  package:
+    name: python3-PyMySQL
+    state: present
+
+- name: Install MySQL server
+  package:
+    name: mysql-server
+    state: present
+
+- name: Ensure MySQL (mysqld) is running
+  service:
+    name: mysqld
+    state: started
+    enabled: yes
+
+- name: Create Zabbix database 
+  mysql_db:
+    name: "{{zabbix_db_name}}"
+    state: present
+
+- name: Create Zabbix User   
+  mysql_user:
+    name: "{{zabbix_db_user}}"
+    password: "{{zabbix_db_password}}"
+    priv: "{{zabbix_db_name}}.*:ALL"
+    state: present
+
+- name: Import Zabbix initial schema
+  shell: |
+    zcat /usr/share/zabbix-sql-scripts/mysql/server.sql.gz | mysql {{ zabbix_db_name }}
+  args:
+    creates: /var/lib/mysql/{{ zabbix_db_name }}/history.ibd
+    
+- name: Deploy Apache config for Zabbix frontend
+  template:
+    src: zabbix-apache.conf.j2
+    dest: /etc/httpd/conf.d/zabbix.conf
+    mode: '0644'
+
+- name: Restart httpd to apply Zabbix frontend config
+  service:
+    name: httpd
+    state: restarted
+
+
+- name: Deploy Zabbix server configuration
+  template:
+    src: zabbix_server.conf.j2
+    dest: /etc/zabbix/zabbix_server.conf
+    mode: '0644'
+
+- name: Set PHP timezone for Zabbix frontend
+  lineinfile:
+    path: /etc/php.ini
+    regexp: '^;?date\.timezone='
+    line: "date.timezone = {{timezone}}"
+    state: present
+
+- name: Enable and start Zabbix server + agent
+  service:
+    name: "{{item}}"
+    state: started
+    enabled: yes
+  loop:
+    - zabbix-server
+  
+- name: Restart httpd service
+  service:
+    name: httpd
+    state: restarted
+
+
+

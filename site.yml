@@ -1,4 +1,4 @@
 ---
-- import_playbook: playbooks/01_prepare_repo.yml
-- import_playbook: playbooks/02_install_zabbix.yml
-# - import_playbook: playbooks/03_configure_zabbix.yml
+# import_playbook: playbooks/01_prepare_repo.yml
+# import_playbook: playbooks/02_install_zabbix.yml
+- import_playbook: playbooks/03_configure_zabbix.yml
