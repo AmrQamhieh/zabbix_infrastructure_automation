@@ -2,9 +2,7 @@
 - name: Configure Zabbix server (DB + config + PHP)
   hosts: zabbix-server
   become: yes
-
   collections:
     - community.mysql
-
   roles:
     - zabbix_config

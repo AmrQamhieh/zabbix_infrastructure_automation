@@ -2,10 +2,8 @@
 - name: Prepare Internal YUM repository
   hosts: local
   become: yes
-
   vars:
     repo_dir: /var/www/html/repo
-
   roles:
     - repo
 
@@ -14,12 +12,11 @@
     - zabbix-server
     - zabbix-agent
   become: yes
-
   vars:
     repo_server_host: "{{ groups['local'][0] }}"
     local_repo_name: local-zabbix
     local_repo_baseurl: "http://{{ hostvars[repo_server_host].ansible_host | default(repo_server_host) }}/repo"
-
+    
   tasks:
     - name: Configure local YUM repo
       yum_repository:

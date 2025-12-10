@@ -3,7 +3,6 @@
   become: true
   collections:
     - ansible.posix
-
   roles:
     - zabbix_server
 
@@ -12,7 +11,6 @@
   collections:
     - ansible.posix
   become: true
-  
   roles:
     - zabbix_agent
 
