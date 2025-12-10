@@ -31,7 +31,7 @@ Everything is reproducible with one command.
 ## 🚀 How the Automation Works
 
 ### **1️⃣ Prepare Internal Repository**
-The first playbook turns the Zabbix server into a mini web server hosting an internal YUM repo:
+The first playbook turns the Localhost into a mini web server hosting an internal YUM repo:
 
 - Installs Apache (`httpd`)
 - Creates directory `/var/www/html/repo`

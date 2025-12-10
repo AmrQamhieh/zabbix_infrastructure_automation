@@ -1,12 +1,9 @@
 ---
-- name: Install Python MySQL driver (PyMySQL)
+- name: Install Python MySQL driver & MySQL Server
   package:
-    name: python3-PyMySQL
-    state: present
-
-- name: Install MySQL server
-  package:
-    name: mysql-server
+    name: 
+      - python3-PyMySQL
+      - mysql-server
     state: present
 
 - name: Ensure MySQL (mysqld) is running

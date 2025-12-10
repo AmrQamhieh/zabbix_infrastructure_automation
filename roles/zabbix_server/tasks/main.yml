@@ -2,6 +2,8 @@
 - name: Install Zabbix server and web packages
   package:
     name: "{{item}}"
+    enablerepo: local-zabbix
+    disablerepo: "*"
     state: present
   loop:
       - zabbix-server-mysql

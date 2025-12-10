@@ -3,6 +3,8 @@
   package: 
     name:
       - zabbix-agent
+    enablerepo: local-zabbix
+    disablerepo: "*"
     state: present  
 
 - name: Start and Enable Zabbix agent
